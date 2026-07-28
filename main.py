@@ -26,6 +26,18 @@ while True:
         h, w = frame.shape[0], frame.shape[1]
         overlay.drawBoundingBox(frame, box, w, h)
 
+        #Here we are gonna use the getLandmarkRelation function to figure out if the user wants to go to the next or previous slide
+        if(detector.getLandmarkRelation(hand_landmarks, 8, 0) and (detector.getLandmarkRelations(hand_landmarks, 12, 0))):
+            if( (not(detector.getLandmarkRelation(hand_landmarks, 16, 10))) and (not(detector.getLandmarkRelations(hand_landmarks, 20, 10))) ):
+                #Here's where we gotta use PyAutoGUI to click the arrow key forward
+                print("next slide <-- This is temporary")
+        else:
+            if(detector.getLandmarkRelation(hand_landmarks, 16, 10) and (detector.getLandmarkRelations(hand_landmarks, 20, 10))):
+                #Here's where we gotta use PyAutoGUI to click the arrow key backwards
+                print("previous slide <-- This is temporary")
+
+
+
     cv2.imshow("Camera Feed", cv2.flip(frame, 1))
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
