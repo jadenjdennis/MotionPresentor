@@ -2,6 +2,7 @@ import cv2
 from camera import Camera
 from gestures import GestureDetector
 import overlay
+import pyautogui as pg
 
 cam = Camera(0)
 detector = GestureDetector()
@@ -27,14 +28,14 @@ while True:
         overlay.drawBoundingBox(frame, box, w, h)
 
         #Here we are gonna use the getLandmarkRelation function to figure out if the user wants to go to the next or previous slide
-        if(detector.getLandmarkRelation(hand_landmarks, 8, 0) and (detector.getLandmarkRelations(hand_landmarks, 12, 0))):
-            if( (not(detector.getLandmarkRelation(hand_landmarks, 16, 10))) and (not(detector.getLandmarkRelations(hand_landmarks, 20, 10))) ):
+        if(detector.getLandmarkRelation(hand_landmarks, 8, 0, w, h) and (detector.getLandmarkRelation(hand_landmarks, 12, 0, w, h))):
+            if( (not(detector.getLandmarkRelation(hand_landmarks, 16, 10, w, h))) and (not(detector.getLandmarkRelation(hand_landmarks, 20, 10, w, h))) ):
                 #Here's where we gotta use PyAutoGUI to click the arrow key forward
-                print("next slide <-- This is temporary")
+                pg.press('left')
         else:
-            if(detector.getLandmarkRelation(hand_landmarks, 16, 10) and (detector.getLandmarkRelations(hand_landmarks, 20, 10))):
+            if(detector.getLandmarkRelation(hand_landmarks, 16, 10, w, h) and (detector.getLandmarkRelation(hand_landmarks, 20, 10, w, h))):
                 #Here's where we gotta use PyAutoGUI to click the arrow key backwards
-                print("previous slide <-- This is temporary")
+                pg.press(['command','command'])
 
 
 
