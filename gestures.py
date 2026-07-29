@@ -20,23 +20,27 @@ class GestureDetector:
 
     #This function is gonna be used to find the relation between two landmarks. Goal to see if result = (-) or (+)
     #I'll be using the distance formula for this function
-    def getLandmarkRelation(self, hand_landmarks, lm1,lm2, image_width, image_height):
-        lm1X, lm1Y = hand_landmarks.landmark[lm1].x, hand_landmarks.landmark[lm1].y
-        lm2X, lm2Y = hand_landmarks.landmark[lm2].x, hand_landmarks.landmark[lm2].y
+    def getLandmarkRelation(self, lm1, lm2):
+        lm1X, lm1Y = lm1[0], lm1[1]
+        lm2X, lm2Y = lm2[0], lm2[1]
 
-        lm1XCoord, lm1YCoord = int(lm1X * image_width), int(lm1Y * image_height)
-        lm2XCoord, lm2YCoord = int(lm2X * image_width), int(lm2Y * image_height)
+        result = lm2X - lm1X
 
-        #Now we do the calculation and return result: d = sqrt((x2 - x1)^2 + (y2 - y1)^2)
-        result = lm2XCoord - lm1XCoord
-
-        #Here I can tell if the result is (+) or (-), and return a boolean value which I can utilize in main.py 
+        #Here I can tell if the result is (+) or (-), and return a boolean value which I can utilize in main.py
         returnVal = False 
         if(result > 0):
             returnVal = True
-
+        
         return returnVal
 
+
+    def normalizeCoords(self, allLandmarks, image_width, image_height):
+        normalized_landmarks = []
+        for lm in allLandmarks.landmark:
+            normalized_x = lm.x * image_width
+            normalized_y = lm.y * image_height
+            normalized_landmarks.append((normalized_x, normalized_y))
+        return normalized_landmarks
 
     @staticmethod
     def getBoundingBox(hand_landmarks):
