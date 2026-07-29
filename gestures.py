@@ -1,4 +1,5 @@
 import mediapipe as mp
+import numpy as np
 
 class GestureDetector:
     def __init__(self):
@@ -17,7 +18,32 @@ class GestureDetector:
         #Also it's another safety block, so if result doesn't exist, it won't check result.multi_hand_landmarks
         return self.result
 
+    #This function is gonna be used to find the relation between two landmarks. Goal to see if result = (-) or (+)
+    #I'll be using the distance formula for this function
+    def getLandmarkRelation(self, lm1, lm2):
+        lm1X, lm1Y = lm1[0], lm1[1]
+        lm2X, lm2Y = lm2[0], lm2[1]
 
+        result = lm2X - lm1X
+
+        #Here I can tell if the result is (+) or (-), and return a boolean value which I can utilize in main.py
+        returnVal = False 
+        if(result > 0):
+            returnVal = True
+        
+        return returnVal
+
+    #Instead of having to individually normalize each landmark, I might as well just do them all at once.
+    #That's what this function is for. Takes all the landmarks, normalizes them, and then stores them as tuples inside of a list
+    def normalizeCoords(self, allLandmarks, image_width, image_height):
+        normalized_landmarks = []
+        for lm in allLandmarks.landmark:
+            normalized_x = lm.x * image_width
+            normalized_y = lm.y * image_height
+            normalized_landmarks.append((normalized_x, normalized_y))
+        return normalized_landmarks
+
+    #Static cuz it doesn't rely on any instance variables or other method of the class.
     @staticmethod
     def getBoundingBox(hand_landmarks):
         xMin, yMin, xMax, yMax = 1.0, 1.0, 0.0, 0.0

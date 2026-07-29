@@ -3,9 +3,11 @@ import mediapipe as mp
 
 mp_drawing = mp.solutions.drawing_utils
 
+#This method actually draws the hand landmarks on the frame.
 def drawHands(frame, hand_landmarks):
     mp_drawing.draw_landmarks(frame, hand_landmarks, mp.solutions.hands.HAND_CONNECTIONS)
 
+#Works with the static method in gestures.py to draw a bounding box around the hand.
 def drawBoundingBox(frame, box, image_width, image_height):
     xMin, yMin, xMax, yMax = box
     xMinPix, yMinPix = int(xMin * image_width), int(yMin * image_height)
