@@ -3,15 +3,21 @@ from camera import Camera
 from gestures import GestureDetector
 import overlay
 import pyautogui as pg
+import time
 
 cam = Camera(0)
 detector = GestureDetector()
+
+cooldownDuration = 3.0
+lastTriggerTime = 0.0
 
 while True:
     ok, frame = cam.readFrame()
     if not ok:
         print("Error: Couldn't receive frame... Exiting program...")
         break
+
+    currentTime = time.time()
 
     frame.flags.writeable = False
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -31,11 +37,21 @@ while True:
         if(detector.getLandmarkRelation(hand_landmarks, 8, 0, w, h) and (detector.getLandmarkRelation(hand_landmarks, 12, 0, w, h))):
             if( (not(detector.getLandmarkRelation(hand_landmarks, 16, 10, w, h))) and (not(detector.getLandmarkRelation(hand_landmarks, 20, 10, w, h))) ):
                 #Here's where we gotta use PyAutoGUI to click the arrow key forward
-                pg.press('left')
-        else:
+                if((currentTime - lastTriggerTime) >= cooldownDuration):
+                    pg.press('right')
+                    lastTriggerTime = currentTime
+                    print("Gesture detected, right arrow key pressed.")
+                #else:
+                    #print("Gesture detected, but still in cooldown period. Please wait before triggering again.")
+        elif( (not(detector.getLandmarkRelation(hand_landmarks, 8, 0, w, h))) and (not(detector.getLandmarkRelation(hand_landmarks, 12, 0, w, h))) ):
             if(detector.getLandmarkRelation(hand_landmarks, 16, 10, w, h) and (detector.getLandmarkRelation(hand_landmarks, 20, 10, w, h))):
                 #Here's where we gotta use PyAutoGUI to click the arrow key backwards
-                pg.press(['command','command'])
+                if((currentTime - lastTriggerTime) >= cooldownDuration):
+                    pg.press(['command','command'])
+                    lastTriggerTime = currentTime
+                    print("Gesture detected, Siri accessed.")
+                #else:
+                    #print("Gesture detected, but still in cooldown period. Please wait before triggering again.")
 
 
 
