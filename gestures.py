@@ -33,7 +33,8 @@ class GestureDetector:
         
         return returnVal
 
-
+    #Instead of having to individually normalize each landmark, I might as well just do them all at once.
+    #That's what this function is for. Takes all the landmarks, normalizes them, and then stores them as tuples inside of a list
     def normalizeCoords(self, allLandmarks, image_width, image_height):
         normalized_landmarks = []
         for lm in allLandmarks.landmark:
@@ -42,6 +43,7 @@ class GestureDetector:
             normalized_landmarks.append((normalized_x, normalized_y))
         return normalized_landmarks
 
+    #Static cuz it doesn't rely on any instance variables or other method of the class.
     @staticmethod
     def getBoundingBox(hand_landmarks):
         xMin, yMin, xMax, yMax = 1.0, 1.0, 0.0, 0.0
