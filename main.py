@@ -8,7 +8,7 @@ import time
 cam = Camera(0)
 detector = GestureDetector()
 
-cooldownDuration = 3.0
+cooldownDuration = 2.0
 lastTriggerTime = 0.0
 
 while True:
@@ -23,6 +23,8 @@ while True:
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     result = detector.processFrame(rgb_frame)
 
+    
+
     #This is a safety block, so if result doesn't exist, it won't bother checking the other, which would throw an error
     if result and result.multi_hand_landmarks:
         hand_landmarks = result.multi_hand_landmarks[0]
@@ -33,9 +35,13 @@ while True:
         h, w = frame.shape[0], frame.shape[1]
         overlay.drawBoundingBox(frame, box, w, h)
 
+        normLMs = detector.normalizeCoords(result.multi_hand_landmarks[0], w, h)
+
+        #print(normLMs[5][0] - normLMs[0][0])
+
         #Here we are gonna use the getLandmarkRelation function to figure out if the user wants to go to the next or previous slide
-        if(detector.getLandmarkRelation(hand_landmarks, 8, 0, w, h) and (detector.getLandmarkRelation(hand_landmarks, 12, 0, w, h))):
-            if( (not(detector.getLandmarkRelation(hand_landmarks, 16, 10, w, h))) and (not(detector.getLandmarkRelation(hand_landmarks, 20, 10, w, h))) ):
+        if(detector.getLandmarkRelation(normLMs[8], normLMs[0]) and (detector.getLandmarkRelation(normLMs[12], normLMs[0]))):
+            if((not(detector.getLandmarkRelation(normLMs[16], normLMs[10]))) and (not(detector.getLandmarkRelation(normLMs[20], normLMs[10]))) and (detector.getLandmarkRelation(normLMs[11], normLMs[14]))):
                 #Here's where we gotta use PyAutoGUI to click the arrow key forward
                 if((currentTime - lastTriggerTime) >= cooldownDuration):
                     pg.press('right')
@@ -43,13 +49,13 @@ while True:
                     print("Gesture detected, right arrow key pressed.")
                 #else:
                     #print("Gesture detected, but still in cooldown period. Please wait before triggering again.")
-        elif( (not(detector.getLandmarkRelation(hand_landmarks, 8, 0, w, h))) and (not(detector.getLandmarkRelation(hand_landmarks, 12, 0, w, h))) ):
-            if(detector.getLandmarkRelation(hand_landmarks, 16, 10, w, h) and (detector.getLandmarkRelation(hand_landmarks, 20, 10, w, h))):
+        elif((not(detector.getLandmarkRelation(normLMs[8], normLMs[0]))) and (not(detector.getLandmarkRelation(normLMs[12], normLMs[0])))):
+            if(detector.getLandmarkRelation(normLMs[16], normLMs[10]) and (detector.getLandmarkRelation(normLMs[20], normLMs[10])) and (not(detector.getLandmarkRelation(normLMs[11], normLMs[14])))):
                 #Here's where we gotta use PyAutoGUI to click the arrow key backwards
                 if((currentTime - lastTriggerTime) >= cooldownDuration):
-                    pg.press(['command','command'])
+                    pg.press('left')
                     lastTriggerTime = currentTime
-                    print("Gesture detected, Siri accessed.")
+                    print("Gesture detected, left arrow key pressed.")
                 #else:
                     #print("Gesture detected, but still in cooldown period. Please wait before triggering again.")
 
