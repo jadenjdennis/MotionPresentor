@@ -7,7 +7,7 @@ Project Documentation Live: [OpenCV Summer Project Logbook || 2026](https://docs
 - 2 fingers pointing out right to move to the next slide
 - 2 fingers pointing out left to move to the previous slide
 
-### Disclaimers:
+### Disclaimers: 🚨
 - You must click into your presentation and hit present after running this program for it to actually function!
 - You must have ***python 3.12*** to run this project
 
@@ -20,7 +20,7 @@ Project Documentation Live: [OpenCV Summer Project Logbook || 2026](https://docs
 ## Known Bugs 🐛
 - For some reason, when the hand is fully shown and all fingers are pointing upwards, the program triggers the arrow key press
 
-### Libraries Used 🛠️
+## Libraries Used 🛠️
 - Mediapipe Library - hand tracking + landmark model
 - OpenCV - Displaying the video feed
 - PyAutoGUI - Interacting with hardware to aid with presentations
