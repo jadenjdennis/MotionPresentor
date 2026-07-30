@@ -1,5 +1,5 @@
 # MotionPresentor 👈
-An application that utilizes hand gestures to interact with presentations with the goal of aiding with their accessibility 
+**The Goal**: Aid presenters by increasing accessibility while presenting using hand gestures
 
 Project Documentation Live: [OpenCV Summer Project Logbook || 2026](https://docs.google.com/document/d/1gsDFz3L_0AUPEGQmuxwuolZBaTePHxie5uym7Uy8LaI/edit?usp=sharing)
 
@@ -7,7 +7,9 @@ Project Documentation Live: [OpenCV Summer Project Logbook || 2026](https://docs
 - 2 fingers pointing out right to move to the next slide
 - 2 fingers pointing out left to move to the previous slide
 
-Please note that you must click into your presentation and hit present after running this program for it to actually function!
+### Disclaimers:
+- You must click into your presentation and hit present after running this program for it to actually function!
+- You must have ***python 3.12*** to run this project
 
 ## Currently in Development 🧑‍💻
 - Resource optimization via introduction of a **Hybrid Tracking Pipeline**
@@ -15,3 +17,10 @@ Please note that you must click into your presentation and hit present after run
 ## Coming Soon 👀
 - Using your finger to act as a pointer for presentations
 
+## Known Bugs 🐛
+- For some reason, when the hand is fully shown and all fingers are pointing upwards, the program triggers the arrow key press
+
+### Libraries Used 🛠️
+- Mediapipe Library - hand tracking + landmark model
+- OpenCV - Displaying the video feed
+- PyAutoGUI - Interacting with hardware to aid with presentations
