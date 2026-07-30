@@ -3,7 +3,7 @@ An application that utilizes hand gestures to interact with presentations with t
 
 Project Documentation Live: [OpenCV Summer Project Logbook || 2026](https://docs.google.com/document/d/1gsDFz3L_0AUPEGQmuxwuolZBaTePHxie5uym7Uy8LaI/edit?usp=sharing)
 
-## Version 1.0 1️⃣
+## Version 1️⃣.0️⃣
 - 2 fingers pointing out right to move to the next slide
 - 2 fingers pointing out left to move to the previous slide
 
